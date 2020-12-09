@@ -19,6 +19,7 @@ public class TowerController : MonoBehaviour
     private bool _maxLevelReached = false;
 
     public GameObject updateObj;
+    public float levelUpVisualK = 0.3f;
 
     private void Start()
     {
@@ -114,7 +115,14 @@ public class TowerController : MonoBehaviour
         GameMaster.Instance.ChangeGold(-_currentSettings.updatePrice);
         _currentLevel++;
         GetCurrentSettings();
+        UpdateVisual();
         CheckIsReadyToUpdate();
+    }
+
+    public void UpdateVisual()
+    {
+        var localScale = gameObject.transform.localScale;
+        gameObject.transform.localScale += localScale * _currentLevel * levelUpVisualK;
     }
 
 #if UNITY_EDITOR

@@ -102,15 +102,15 @@ namespace AnotherDTGame
             UpdateVisualData();
         }
 
-        public void DecreaseLives()
+        public void DecreaseLives(int decreaseValue)
         {
-            ChangeLives(-1);
+            ChangeLives(-decreaseValue);
             UpdateVisualData();
             if (_currentLives <= 0)
                 onGameOver?.Invoke();
         }
 
-        public void UpdateVisualData()
+        private void UpdateVisualData()
         {
             if (goldText != null)
                 goldText.text = _gold.ToString();
@@ -123,8 +123,6 @@ namespace AnotherDTGame
             
             if (enemyKilledText != null)
                 enemyKilledText.text = _enemyKilled.ToString();
-            
-            
         }
     }
 }

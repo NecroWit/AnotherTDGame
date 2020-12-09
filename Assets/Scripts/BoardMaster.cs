@@ -11,8 +11,21 @@ namespace AnotherDTGame
         public string name;
         public float speed;
         public int attack;
+        public int attackVariation;
         public int health;
+        public int healthVariation;
         public int goldAward;
+
+        public void Clone(EnemySettings baseObj)
+        {
+            name = baseObj.name;
+            speed = baseObj.speed;
+            attack = baseObj.attack;
+            attackVariation = baseObj.attackVariation;
+            health = baseObj.health;
+            healthVariation = baseObj.healthVariation;
+            goldAward = baseObj.goldAward;
+        }
     }
     
     [System.Serializable]
@@ -60,6 +73,8 @@ namespace AnotherDTGame
 
         [SerializeField] private EnemySettings baseEnemySettings;
 
+        private EnemySettings _currentEnemySettings = new EnemySettings();
+
         [SerializeField] private List<TowerSettings> towerSettingsList = new List<TowerSettings>();
 
         private void Awake()
@@ -72,6 +87,7 @@ namespace AnotherDTGame
             }
 
             Instance = this;
+            _currentEnemySettings.Clone(baseEnemySettings);
         }
 
         public void StartGame()
@@ -92,6 +108,7 @@ namespace AnotherDTGame
                 enemy.Die();
             }
             _enemyList.Clear();
+            _currentEnemySettings.Clone(baseEnemySettings);
         }
 
         public Vector3 GetPositionOnPath(int n)
@@ -111,16 +128,16 @@ namespace AnotherDTGame
                 if (checkEnemy.transform.localPosition == endPos.localPosition)
                 {
                     RemoveEnemy(checkEnemy);
-                    HitBase();
+                    HitBase(checkEnemy);
                     return true;
                 }
             }
             return false;
         }
 
-        public void HitBase()
+        public void HitBase(EnemyController enemy)
         {
-            GameMaster.Instance.DecreaseLives();
+            GameMaster.Instance.DecreaseLives(enemy.GetCurrentAttack());
         }
 
         public void RemoveEnemy(EnemyController enemy)
@@ -146,7 +163,14 @@ namespace AnotherDTGame
 
         public void VariateEnemy()
         {
-            
+            if (Random.value > 0.5f)
+            {
+                _currentEnemySettings.attack += Random.Range(0, _currentEnemySettings.attackVariation);
+            }
+            if (Random.value > 0.5f)
+            {
+                _currentEnemySettings.health += Random.Range(0, _currentEnemySettings.healthVariation);
+            }
         }
 
         public void AddEnemy(EnemyController enemy)
@@ -168,14 +192,14 @@ namespace AnotherDTGame
             {
                 currentLevelEnemiesAmount--;
                 GameObject enemyGo = Instantiate(enemyPrefab, enemyContainer.transform);
-                enemyGo.name = baseEnemySettings.name + currentLevelEnemiesAmount;
+                enemyGo.name = _currentEnemySettings.name + currentLevelEnemiesAmount;
 
                 var enemyCont = enemyGo.GetComponent<EnemyController>();
 
                 if (enemyCont != null)
                 {
                     AddEnemy(enemyCont);
-                    enemyCont.StartMove(spawnPos.localPosition, baseEnemySettings);
+                    enemyCont.StartMove(spawnPos.localPosition, _currentEnemySettings);
                 }
 
                 yield return new WaitForSeconds(spawnDelay);

@@ -56,6 +56,11 @@ namespace AnotherDTGame
             return gameObject.transform.localPosition;
         }
 
+        public int GetCurrentAttack()
+        {
+            return _currentSettings.attack;
+        }
+
         public void Stop()
         {
             StopAllCoroutines();
