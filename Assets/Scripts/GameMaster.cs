@@ -35,13 +35,26 @@ namespace AnotherDTGame
         private void Awake()
         {
             Instance = this;
+            Clear();
+        }
+
+        private void Clear()
+        {
             currentLives = maxLives;
+            gold = 0;
             UpdateVisualData();
         }
 
         public void StartGame()
         {
             BoardMaster.Instance.StartGame();
+            onGameStart?.Invoke();
+        }
+
+        public void RestartGame()
+        {
+            Clear();
+            BoardMaster.Instance.RestartGame();
             onGameStart?.Invoke();
         }
 

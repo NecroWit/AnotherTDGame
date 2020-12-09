@@ -79,6 +79,7 @@ public class TowerController : MonoBehaviour
 
     public void StopWorking()
     {
+        StopAllCoroutines();
         ChangeIsWorking(false);
     }
 

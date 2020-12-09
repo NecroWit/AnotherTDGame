@@ -22,6 +22,7 @@ namespace AnotherDTGame
         {
             transform.localPosition = startPos;
             InitSettings(enemySettings);
+            GameMaster.Instance.onGameOver.AddListener(Stop);
             MoveToNextPoint();
         }
 
@@ -41,6 +42,7 @@ namespace AnotherDTGame
             if (_currentHealth <= 0)
             {
                 BoardMaster.Instance.RemoveEnemy(this);
+                GameMaster.Instance.ChangeGold(_currentSettings.goldAward);
                 Die();
                 return true;
             }
@@ -52,9 +54,13 @@ namespace AnotherDTGame
             return gameObject.transform.localPosition;
         }
 
+        public void Stop()
+        {
+            StopAllCoroutines();
+        }
+
         public void Die()
         {
-            GameMaster.Instance.ChangeGold(_currentSettings.goldAward);
             Destroy(gameObject);
         }
 

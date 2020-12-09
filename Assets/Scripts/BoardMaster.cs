@@ -79,6 +79,20 @@ namespace AnotherDTGame
             StartSpawnEnemies();
         }
 
+        public void RestartGame()
+        {
+            Clear();
+            StartGame();
+        }
+
+        public void Clear()
+        {
+            foreach (var enemy in _enemyList)
+            {
+                enemy.Die();
+            }
+        }
+
         public Vector3 GetPositionOnPath(int n)
         {
             if (n < _pathPositions.Count)
