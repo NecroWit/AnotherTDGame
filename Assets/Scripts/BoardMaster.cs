@@ -126,6 +126,27 @@ namespace AnotherDTGame
         public void RemoveEnemy(EnemyController enemy)
         {
             _enemyList.Remove(enemy);
+            CheckIsLevelEnd();
+        }
+        
+        public void CheckIsLevelEnd()
+        {
+            if (_enemyList.Count == 0)
+            {
+                NextLevel();
+            }
+        }
+
+        public void NextLevel()
+        {
+            GameMaster.Instance.LevelUp();
+            VariateEnemy();
+            StartSpawnEnemies();
+        }
+
+        public void VariateEnemy()
+        {
+            
         }
 
         public void AddEnemy(EnemyController enemy)
@@ -135,7 +156,9 @@ namespace AnotherDTGame
 
         public void StartSpawnEnemies()
         {
-            currentLevelEnemiesAmount = maxEnemies + Random.Range(0, maxEnemiesRandomRange);
+            var currentLevel = GameMaster.Instance.GetLevel();
+            currentLevelEnemiesAmount = Random.Range(currentLevel,  
+                currentLevel + maxEnemiesRandomRange);
             StartCoroutine(SpawnEnemy());
         }
 

@@ -14,8 +14,10 @@ namespace AnotherDTGame
 
         [SerializeField]
         private int maxLives;
-        private int currentLives;
-        private int gold;
+        private int _currentLives;
+        private int _gold;
+        private int _currentLevel;
+        private int _enemyKilled;
 
         public UnityEvent onGameStart;
         public UnityEvent onGameOver;
@@ -25,7 +27,11 @@ namespace AnotherDTGame
         [SerializeField]
         private Text goldText;
         [SerializeField]
-        private Text livesText;
+        private Text livesText; 
+        [SerializeField]
+        private Text levelText;
+        [SerializeField]
+        private Text enemyKilledText;
         
 
         private void OnDestroy()
@@ -41,8 +47,10 @@ namespace AnotherDTGame
 
         private void Clear()
         {
-            currentLives = maxLives;
-            gold = 0;
+            _currentLives = maxLives;
+            _gold = 0;
+            _currentLevel = 1;
+            _enemyKilled = 0;
             UpdateVisualData();
         }
 
@@ -59,21 +67,38 @@ namespace AnotherDTGame
             onGameStart?.Invoke();
         }
 
+        public void LevelUp()
+        {
+            _currentLevel++;
+            UpdateVisualData();
+        }
+
+        public int GetLevel()
+        {
+            return _currentLevel;
+        }
+
+        public void UpdateEnemyKilled()
+        {
+            _enemyKilled++;
+            UpdateVisualData();
+        }
+
         public void ChangeGold(int newValue)
         {
-            gold += newValue;
+            _gold += newValue;
             UpdateVisualData();
             onGoldAmountChanged?.Invoke();
         }
 
         public int GetGold()
         {
-            return gold;
+            return _gold;
         }
 
         public void ChangeLives(int newValue)
         {
-            currentLives += newValue;
+            _currentLives += newValue;
             UpdateVisualData();
         }
 
@@ -81,17 +106,25 @@ namespace AnotherDTGame
         {
             ChangeLives(-1);
             UpdateVisualData();
-            if (currentLives <= 0)
+            if (_currentLives <= 0)
                 onGameOver?.Invoke();
         }
 
         public void UpdateVisualData()
         {
             if (goldText != null)
-                goldText.text = gold.ToString();
+                goldText.text = _gold.ToString();
 
             if (livesText != null)
-                livesText.text = currentLives.ToString();
+                livesText.text = _currentLives.ToString();
+            
+            if (levelText != null)
+                levelText.text = _currentLevel.ToString();
+            
+            if (enemyKilledText != null)
+                enemyKilledText.text = _enemyKilled.ToString();
+            
+            
         }
     }
 }

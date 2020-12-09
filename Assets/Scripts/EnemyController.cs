@@ -43,6 +43,7 @@ namespace AnotherDTGame
             {
                 BoardMaster.Instance.RemoveEnemy(this);
                 GameMaster.Instance.ChangeGold(_currentSettings.goldAward);
+                GameMaster.Instance.UpdateEnemyKilled();
                 Die();
                 return true;
             }
