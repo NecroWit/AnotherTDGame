@@ -3663,7 +3663,6 @@ MonoBehaviour:
   _pathPositions: []
   enemiesLevel: 0
   spawnDelay: 0.9
-  maxEnemies: 10
   maxEnemiesRandomRange: 4
   currentLevelEnemiesAmount: 0
   enemyPrefab: {fileID: 881590659144787824, guid: 1d7a8ceb78acea0458fcbfe8ed4d5e6d,

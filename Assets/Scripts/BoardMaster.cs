@@ -46,7 +46,6 @@ namespace AnotherDTGame
         public int enemiesLevel;
         [SerializeField] float spawnDelay = 4f;
 
-        [SerializeField] private int maxEnemies = 10;
         [SerializeField] private int maxEnemiesRandomRange = 4;
 
         [SerializeField] private int currentLevelEnemiesAmount;
@@ -92,6 +91,7 @@ namespace AnotherDTGame
             {
                 enemy.Die();
             }
+            _enemyList.Clear();
         }
 
         public Vector3 GetPositionOnPath(int n)
@@ -126,7 +126,7 @@ namespace AnotherDTGame
         public void RemoveEnemy(EnemyController enemy)
         {
             _enemyList.Remove(enemy);
-            CheckIsLevelEnd();
+            Invoke(nameof(CheckIsLevelEnd), 0.1f);
         }
         
         public void CheckIsLevelEnd()

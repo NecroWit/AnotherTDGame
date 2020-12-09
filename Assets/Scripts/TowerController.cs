@@ -121,9 +121,7 @@ public class TowerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Handles.color = Color.red;
-        Handles.DrawWireDisc(transform.localPosition// +(transform.forward *Range) // position
-            , transform.up                       // normal
-            , _currentSettings.radius);        
+        Handles.DrawWireDisc(transform.localPosition, transform.up, _currentSettings.radius);        
     }
 #endif
 }

@@ -29,6 +29,7 @@ namespace AnotherDTGame
         public void InitSettings(EnemySettings enemySettings)
         {
             _currentSettings = enemySettings;
+            _currentHealth = _currentSettings.health;
         }
 
         public bool Hit(int damage)
@@ -90,7 +91,11 @@ namespace AnotherDTGame
                 {
                     step += _currentSettings.speed * Time.deltaTime;
                     t = (step * path) / path;
-                    transform.localPosition = Vector3.Lerp(from, to, t);
+                    
+                    if (t >= 0f)
+                        transform.localPosition = Vector3.Lerp(from, to, t);
+                    
+                    
                     yield return null;
                 }
             }
