@@ -12,6 +12,7 @@ namespace AnotherDTGame
     {
         public static GameMaster Instance;
 
+        [SerializeField]
         private int maxLives;
         private int currentLives;
         private int gold;
@@ -63,6 +64,11 @@ namespace AnotherDTGame
             gold += newValue;
             UpdateVisualData();
             onGoldAmountChanged?.Invoke();
+        }
+
+        public int GetGold()
+        {
+            return gold;
         }
 
         public void ChangeLives(int newValue)

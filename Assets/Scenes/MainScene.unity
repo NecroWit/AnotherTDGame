@@ -1468,6 +1468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5258e748ee90474fa4927b13d36e992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLives: 12
   onGameStart:
     m_PersistentCalls:
       m_Calls: []
@@ -3359,14 +3360,17 @@ MonoBehaviour:
     damage: 10
     bulletsPerMinute: 20
     radius: 1.4
+    updatePrice: 100
   - name: level2
     damage: 15
     bulletsPerMinute: 30
     radius: 1.6
+    updatePrice: 200
   - name: level3
     damage: 20
     bulletsPerMinute: 40
     radius: 1.8
+    updatePrice: 300
 --- !u!1 &1686135402
 GameObject:
   m_ObjectHideFlags: 0

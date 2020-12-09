@@ -9,20 +9,23 @@ public class TowerController : MonoBehaviour
 {
     
     private TowerSettings _currentSettings;
-    private int currentLevel = 0;
+    private int _currentLevel = 0;
 
     private EnemyController _targetEnemy;
     public float waitDelay = 0.1f;
 
 
     public bool isWorking = false;
+    private bool _maxLevelReached = false;
 
+    public GameObject updateObj;
 
     private void Start()
     {
         GetCurrentSettings();
         GameMaster.Instance.onGameStart.AddListener(StartWorking);
         GameMaster.Instance.onGameOver.AddListener(StopWorking);
+        GameMaster.Instance.onGoldAmountChanged.AddListener(CheckIsReadyToUpdate);
     }
 
     IEnumerator Searching()
@@ -90,15 +93,28 @@ public class TowerController : MonoBehaviour
 
     private void GetCurrentSettings()
     {
-        _currentSettings = BoardMaster.Instance.GetTowerSettings(currentLevel, out bool maxLevelReached);
-
-        if (maxLevelReached)
-            MaxLevelReached();
+        _currentSettings = BoardMaster.Instance.GetTowerSettings(_currentLevel, out _maxLevelReached);
     }
 
-    public void MaxLevelReached()
+    public void CheckIsReadyToUpdate()
     {
-        
+        if (GameMaster.Instance.GetGold() >= _currentSettings.updatePrice &&
+            !_maxLevelReached)
+        {
+            updateObj.SetActive(true);
+        }
+        else
+        {
+            updateObj.SetActive(false);
+        }
+    }
+
+    public void UpdateTower()
+    {
+        GameMaster.Instance.ChangeGold(-_currentSettings.updatePrice);
+        _currentLevel++;
+        GetCurrentSettings();
+        CheckIsReadyToUpdate();
     }
 
 #if UNITY_EDITOR

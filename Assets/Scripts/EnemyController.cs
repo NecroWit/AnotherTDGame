@@ -86,7 +86,6 @@ namespace AnotherDTGame
             float step = 0;
             while (t <= 1.0f)
             {
-
                 {
                     step += _currentSettings.speed * Time.deltaTime;
                     t = (step * path) / path;

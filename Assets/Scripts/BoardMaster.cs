@@ -22,6 +22,7 @@ namespace AnotherDTGame
         public int damage;
         public int bulletsPerMinute;
         public float radius;
+        public int updatePrice;
     }
 
     public class BoardMaster : MonoBehaviour

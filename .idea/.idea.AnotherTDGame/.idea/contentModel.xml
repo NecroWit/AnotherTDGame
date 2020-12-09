@@ -9,6 +9,7 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="BoardMaster.cs" t="Include" />
+          <e p="ClickedEvent.cs" t="Include" />
           <e p="EnemyController.cs" t="Include" />
           <e p="GameMaster.cs" t="Include" />
           <e p="HealthBar.cs" t="Include" />
