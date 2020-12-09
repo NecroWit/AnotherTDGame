@@ -3,56 +3,75 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class GameMaster : MonoBehaviour
+
+namespace AnotherDTGame
 {
-    public static GameMaster Instance;
-
-    private int maxLives;
-    private int currentLives;
-    private int gold;
-
-    private UnityEvent onGameStart;
-    private UnityEvent onGameOver;
-
-    private void OnDestroy()
+    public class GameMaster : MonoBehaviour
     {
-        Instance = null;
-    }
+        public static GameMaster Instance;
 
-    private void Awake()
-    {
-        Instance = this;
-        currentLives = maxLives;
-    }
+        private int maxLives;
+        private int currentLives;
+        private int gold;
 
-    public void StartGame()
-    {
-        BoardMaster.Instance.StartGame();
-        onGameStart?.Invoke();
-    }
+        public UnityEvent onGameStart;
+        public UnityEvent onGameOver;
+        public UnityEvent onGoldAmountChanged;
 
-    public void ChangeGold(int newValue)
-    {
-        gold += newValue;
-        UpdateVisualData();
-    }
+        [Space(6)] 
+        [SerializeField]
+        private Text goldText;
+        [SerializeField]
+        private Text livesText;
+        
 
-    public void ChangeLives(int newValue)
-    {
-        currentLives += newValue;
-        UpdateVisualData();
-    }
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
 
-    public void DecreaseLives()
-    {
-        ChangeLives(-1);
-        if(currentLives <= 0)
-            onGameOver?.Invoke();
-    }
+        private void Awake()
+        {
+            Instance = this;
+            currentLives = maxLives;
+        }
 
-    public void UpdateVisualData()
-    {
-        //
+        public void StartGame()
+        {
+            BoardMaster.Instance.StartGame();
+            onGameStart?.Invoke();
+        }
+
+        public void ChangeGold(int newValue)
+        {
+            gold += newValue;
+            UpdateVisualData();
+            onGoldAmountChanged?.Invoke();
+        }
+
+        public void ChangeLives(int newValue)
+        {
+            currentLives += newValue;
+            UpdateVisualData();
+        }
+
+        public void DecreaseLives()
+        {
+            ChangeLives(-1);
+            UpdateVisualData();
+            if (currentLives <= 0)
+                onGameOver?.Invoke();
+        }
+
+        public void UpdateVisualData()
+        {
+            if (goldText != null)
+                goldText.text = gold.ToString();
+
+            if (livesText != null)
+                livesText.text = livesText.ToString();
+        }
     }
 }

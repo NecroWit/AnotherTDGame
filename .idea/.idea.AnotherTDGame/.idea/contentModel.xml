@@ -11,6 +11,8 @@
           <e p="BoardMaster.cs" t="Include" />
           <e p="EnemyController.cs" t="Include" />
           <e p="GameMaster.cs" t="Include" />
+          <e p="HealthBar.cs" t="Include" />
+          <e p="TowerController.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
