@@ -12,10 +12,10 @@ public class EnemySettings
     public int goldAward;
 }
 
-public class EnemyMaster : MonoBehaviour
+public class BoardMaster : MonoBehaviour
 {
 
-    public static EnemyMaster Instance;
+    public static BoardMaster Instance;
 
     private void OnDestroy()
     {
@@ -66,7 +66,10 @@ public class EnemyMaster : MonoBehaviour
         }
 
         Instance = this;
+    }
 
+    public void StartGame()
+    {
         StartSpawnEnemies();
     }
 

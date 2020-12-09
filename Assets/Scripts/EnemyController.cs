@@ -28,12 +28,12 @@ public class EnemyController : MonoBehaviour
 
     public void MoveToNextPoint()
     {
-        if (EnemyMaster.Instance.IsInFinalPoint(this))
+        if (BoardMaster.Instance.IsInFinalPoint(this))
         {
             Invoke(nameof(Die), dieDelay);
         }
 
-        Vector3 nextPos = EnemyMaster.Instance.GetPositionOnPath(currentNPos);
+        Vector3 nextPos = BoardMaster.Instance.GetPositionOnPath(currentNPos);
 
         if (nextPos != Vector3.zero)
             StartCoroutine(StepMove(transform.localPosition, nextPos));

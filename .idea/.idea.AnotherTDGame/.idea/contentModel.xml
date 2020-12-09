@@ -8,9 +8,9 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
+          <e p="BoardMaster.cs" t="Include" />
           <e p="EnemyController.cs" t="Include" />
-          <e p="EnemyMaster.cs" t="Include" />
-          <e p="GameController.cs" t="Include" />
+          <e p="GameMaster.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
