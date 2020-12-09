@@ -3114,17 +3114,28 @@ MonoBehaviour:
   maxEnemies: 10
   maxEnemiesRandomRange: 4
   currentLevelEnemiesAmount: 0
-  enemySettings: []
   enemyPrefab: {fileID: 881590659144787824, guid: 1d7a8ceb78acea0458fcbfe8ed4d5e6d,
     type: 3}
   enemyContainer: {fileID: 844744686}
   baseEnemySettings:
     name: John
-    speed: 0.8
-    attack: 0
-    health: 0
-    goldAward: 0
-  towerSettingsList: []
+    speed: 0.6
+    attack: 10
+    health: 40
+    goldAward: 40
+  towerSettingsList:
+  - name: level1
+    damage: 10
+    bulletsPerMinute: 20
+    radius: 1.4
+  - name: level2
+    damage: 15
+    bulletsPerMinute: 30
+    radius: 1.6
+  - name: level3
+    damage: 20
+    bulletsPerMinute: 40
+    radius: 1.8
 --- !u!1 &1686135402
 GameObject:
   m_ObjectHideFlags: 0

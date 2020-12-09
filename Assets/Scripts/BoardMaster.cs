@@ -21,6 +21,7 @@ namespace AnotherDTGame
         public string name;
         public int damage;
         public int bulletsPerMinute;
+        public float radius;
     }
 
     public class BoardMaster : MonoBehaviour
@@ -49,7 +50,7 @@ namespace AnotherDTGame
 
         [SerializeField] private int currentLevelEnemiesAmount;
 
-        [SerializeField] private List<EnemySettings> enemySettings;
+        //[SerializeField] private List<EnemySettings> enemySettings;
 
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private GameObject enemyContainer;
@@ -152,11 +153,29 @@ namespace AnotherDTGame
             return towerSettingsList[towerLevel];
         }
 
-        public EnemyController GetNearestEnemy(Vector3 position)
+        public EnemyController GetNearestEnemy(Vector3 position, float radius)
         {
             if (_enemyList.Count == 0)
                 return null;
-            return _enemyList[0];
+
+            EnemyController resEnemy = null;
+
+            foreach (EnemyController currentEnemy in _enemyList)
+            {
+                if (resEnemy == null &&
+                    Vector3.Distance(currentEnemy.GetLocalPos(), position) < radius)
+                {
+                    resEnemy = currentEnemy;
+                }
+                else if ((Vector3.Distance(currentEnemy.GetLocalPos(), position) < radius) &&
+                         (Vector3.Distance(currentEnemy.GetLocalPos(), position) <
+                          Vector3.Distance(resEnemy.GetLocalPos(), position)))
+                {
+                    resEnemy = currentEnemy;
+                }
+            }
+
+            return resEnemy;
         }
     }
 }

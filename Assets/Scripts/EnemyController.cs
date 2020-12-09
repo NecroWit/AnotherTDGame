@@ -30,7 +30,7 @@ namespace AnotherDTGame
             _currentSettings = enemySettings;
         }
 
-        public void Hit(int damage)
+        public bool Hit(int damage)
         {
             _currentHealth -= damage;
             if (healthBar != null)
@@ -42,11 +42,19 @@ namespace AnotherDTGame
             {
                 BoardMaster.Instance.RemoveEnemy(this);
                 Die();
+                return true;
             }
+            return false;
+        }
+
+        public Vector3 GetLocalPos()
+        {
+            return gameObject.transform.localPosition;
         }
 
         public void Die()
         {
+            GameMaster.Instance.ChangeGold(_currentSettings.goldAward);
             Destroy(gameObject);
         }
 

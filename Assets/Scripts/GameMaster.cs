@@ -36,6 +36,7 @@ namespace AnotherDTGame
         {
             Instance = this;
             currentLives = maxLives;
+            UpdateVisualData();
         }
 
         public void StartGame()
@@ -71,7 +72,7 @@ namespace AnotherDTGame
                 goldText.text = gold.ToString();
 
             if (livesText != null)
-                livesText.text = livesText.ToString();
+                livesText.text = currentLives.ToString();
         }
     }
 }

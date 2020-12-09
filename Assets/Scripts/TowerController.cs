@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AnotherDTGame;
+using UnityEditor;
 using UnityEngine;
 
 public class TowerController : MonoBehaviour
@@ -10,7 +11,8 @@ public class TowerController : MonoBehaviour
     private TowerSettings _currentSettings;
     private int currentLevel = 0;
 
-    private EnemyController targetEnemy;
+    private EnemyController _targetEnemy;
+    public float waitDelay = 0.1f;
 
 
     public bool isWorking = false;
@@ -22,33 +24,57 @@ public class TowerController : MonoBehaviour
         GameMaster.Instance.onGameStart.AddListener(StartWorking);
         GameMaster.Instance.onGameOver.AddListener(StopWorking);
     }
-    
-    //Implement thru coroutine if to often
-    private void FixedUpdate()
+
+    IEnumerator Searching()
     {
-        if (isWorking)
+        while (isWorking)
         {
-            if (targetEnemy != null)
+            if (TryGetNearestEnemy())
             {
-                targetEnemy.Hit(_currentSettings.damage);
+                StopAllCoroutines();
+                StartCoroutine(Firing());
             }
-            else
-            {
-                GetNearestEnemy();
-            }
+            yield return new WaitForSeconds(waitDelay);
         }
     }
 
-    public void GetNearestEnemy()
+    IEnumerator Firing()
     {
-        targetEnemy = BoardMaster.Instance.GetNearestEnemy(transform.localPosition);
-        if (targetEnemy == null)
-            isWorking = true;
+        while (_targetEnemy != null)
+        {
+            if (Vector3.Distance(_targetEnemy.transform.localPosition, transform.localPosition) <
+                _currentSettings.radius)
+            {
+                bool isDead = _targetEnemy.Hit(_currentSettings.damage);
+
+#if UNITY_EDITOR
+                Debug.DrawLine(transform.localPosition, _targetEnemy.GetLocalPos(), Color.magenta);
+#endif
+                if (isDead)
+                    _targetEnemy = null;
+            }
+            else
+                _targetEnemy = null;
+
+            yield return new WaitForSeconds(60f / _currentSettings.bulletsPerMinute);
+        }
+        StopAllCoroutines();
+        StartCoroutine(Searching());
+    }
+
+
+    public bool TryGetNearestEnemy()
+    {
+        _targetEnemy = BoardMaster.Instance.GetNearestEnemy(transform.localPosition, _currentSettings.radius);
+        if (_targetEnemy != null)
+            return true;
+        return false;
     }
 
     public void StartWorking()
     {
         ChangeIsWorking(true);
+        StartCoroutine(Searching());
     }
 
     public void StopWorking()
@@ -73,4 +99,14 @@ public class TowerController : MonoBehaviour
     {
         
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.color = Color.red;
+        Handles.DrawWireDisc(transform.localPosition// +(transform.forward *Range) // position
+            , transform.up                       // normal
+            , _currentSettings.radius);        
+    }
+#endif
 }
