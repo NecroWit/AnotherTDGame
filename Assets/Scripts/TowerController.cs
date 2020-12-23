@@ -128,8 +128,11 @@ public class TowerController : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Handles.color = Color.red;
-        Handles.DrawWireDisc(transform.localPosition, transform.up, _currentSettings.radius);        
+        if (_currentSettings != null)
+        {
+            Handles.color = Color.red;
+            Handles.DrawWireDisc(transform.localPosition, transform.up, _currentSettings.radius);
+        }
     }
 #endif
 }

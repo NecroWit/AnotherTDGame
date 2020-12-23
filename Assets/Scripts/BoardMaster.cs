@@ -38,23 +38,15 @@ namespace AnotherDTGame
         public int updatePrice;
     }
 
-    public class BoardMaster : MonoBehaviour
+    public class BoardMaster : SingletonBehaviour<BoardMaster>
     {
-
-        public static BoardMaster Instance;
-
-        private void OnDestroy()
-        {
-            Instance = null;
-        }
-
         [SerializeField] private Transform spawnPos = null;
 
         [SerializeField] private Transform endPos = null;
 
         [SerializeField] private GameObject pathContainer;
 
-        public List<Vector3> _pathPositions = new List<Vector3>();
+        private List<Vector3> _pathPositions = new List<Vector3>();
 
         public int enemiesLevel;
         [SerializeField] float spawnDelay = 4f;
@@ -85,8 +77,7 @@ namespace AnotherDTGame
                 if (pathObj.localPosition != Vector3.zero)
                     _pathPositions.Add(pathObj.localPosition);
             }
-
-            Instance = this;
+            Init();
             _currentEnemySettings.Clone(baseEnemySettings);
         }
 
