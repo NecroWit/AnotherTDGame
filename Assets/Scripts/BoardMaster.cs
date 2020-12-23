@@ -6,7 +6,7 @@ using UnityEngine;
 namespace AnotherDTGame
 {
     [System.Serializable]
-    public class EnemySettings
+    public class EnemySettings : System.ICloneable
     {
         public string name;
         public float speed;
@@ -15,16 +15,9 @@ namespace AnotherDTGame
         public int health;
         public int healthVariation;
         public int goldAward;
-
-        public void Clone(EnemySettings baseObj)
+        public object Clone()
         {
-            name = baseObj.name;
-            speed = baseObj.speed;
-            attack = baseObj.attack;
-            attackVariation = baseObj.attackVariation;
-            health = baseObj.health;
-            healthVariation = baseObj.healthVariation;
-            goldAward = baseObj.goldAward;
+            return MemberwiseClone();
         }
     }
     
@@ -78,7 +71,7 @@ namespace AnotherDTGame
                     _pathPositions.Add(pathObj.localPosition);
             }
             Init();
-            _currentEnemySettings.Clone(baseEnemySettings);
+            _currentEnemySettings = (EnemySettings)baseEnemySettings.Clone();
         }
 
         public void StartGame()
@@ -99,7 +92,7 @@ namespace AnotherDTGame
                 enemy.Die();
             }
             _enemyList.Clear();
-            _currentEnemySettings.Clone(baseEnemySettings);
+            _currentEnemySettings = (EnemySettings)baseEnemySettings.Clone();
         }
 
         public Vector3 GetPositionOnPath(int n)
